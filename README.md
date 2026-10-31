@@ -1,8 +1,42 @@
+<div align="center">
+
 # Employee Attrition Classification
 
-Predicts employee attrition (Yes/No) from an HR dataset, covering the full workflow from exploratory data analysis through comparing four classical classifiers (KNN, Naive Bayes, Decision Tree, Random Forest) and a deep learning model.
+**A case study in the accuracy paradox: three of five models score about 80% accuracy and never find a single employee who leaves.**
 
-*(Two versions of this assignment existed in the original coursework archive — this is the more complete one, which extends the shared EDA/preprocessing with the full model comparison.)*
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white)
+![Keras](https://img.shields.io/badge/Keras-D00000?logo=keras&logoColor=white)
+![Status](https://img.shields.io/badge/imbalance%20fix-not%20done%20yet-orange)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+</div>
+
+## At a glance
+
+| | |
+|---|---|
+| **Task** | Predict `Attrition` (Yes/No) for 10,000 employees from 25 HR features |
+| **Models** | KNN, Gaussian Naive Bayes, Decision Tree, Random Forest, Keras neural network |
+| **Finding** | Naive Bayes, Random Forest and the neural network reach 0.795 to 0.796 accuracy with **0.0 precision and recall**, because they always predict "no attrition" |
+| **Only useful model** | The Decision Tree: lowest accuracy (0.672), but the only one with real recall (0.257) |
+| **Not done** | Retraining with class weights or SMOTE. Needs the CSV, which is not in this repo ([details](#next-steps-not-done-yet)) |
+
+## Contents
+
+[The result in one picture](#the-result-in-one-picture) · [Data](#data) · [Pipeline](#pipeline) · [Results](#results-as-logged-by-the-notebook) · [Why accuracy misleads](#an-instructive-result-reported-honestly) · [Next steps](#next-steps-not-done-yet)
+
+## The result in one picture
+
+| Model | Accuracy | Recall (finds leavers) |
+|---|---|---|
+| Naive Bayes | `████████████████░░░░` 0.796 | `░░░░░░░░░░░░░░░░░░░░` 0.000 |
+| Random Forest | `████████████████░░░░` 0.796 | `░░░░░░░░░░░░░░░░░░░░` 0.000 |
+| Deep Learning | `████████████████░░░░` 0.795 | `░░░░░░░░░░░░░░░░░░░░` 0.000 |
+| KNN | `███████████████░░░░░` 0.765 | `░░░░░░░░░░░░░░░░░░░░` 0.039 |
+| Decision Tree | `█████████████░░░░░░░` 0.672 | `█████░░░░░░░░░░░░░░░` 0.257 |
+
+High accuracy next to empty recall is the signature of a model that has learned to say "no" to everyone, because about 80% of employees stay.
 
 ## Data
 
@@ -36,6 +70,20 @@ This is left in deliberately rather than cherry-picking the headline accuracy nu
 
 The honest follow-up to the result above is to retrain with the imbalance handled: class weights or SMOTE on the training split only, a lower decision threshold chosen from the precision-recall curve, and PR-AUC or F1 as the headline metric instead of accuracy. That needs the dataset, so it is left as a to-do rather than claimed.
 
+## Repository layout
+
+```text
+.
+├── employee_attrition_classification.ipynb   # EDA, preprocessing, five models
+└── LICENSE
+```
+
+*Two versions of this assignment existed in the original coursework archive; this is the more complete one, which extends the shared EDA and preprocessing with the full model comparison.*
+
 ## Skills demonstrated
 
-Full classical ML workflow across multiple algorithm families, and — importantly — correctly reading evaluation metrics rather than reporting accuracy in isolation on an imbalanced classification problem.
+The full classical ML workflow across several algorithm families, and, more importantly, reading evaluation metrics correctly instead of reporting accuracy alone on an imbalanced problem.
+
+## License
+
+[MIT](LICENSE) © 2026 Abdelrahman Shaheen
